@@ -1,0 +1,39 @@
+---
+- name: Validate parameters
+  ansible.builtin.assert:
+    that:
+      - puppeteers_dns_forwarder_manage_firewalld is boolean
+      - puppeteers_dns_forwarder_allow_query is string
+      - puppeteers_dns_forwarder_firewalld_zone is string
+
+- name: Install bind
+  ansible.builtin.package:
+    name: bind
+    state: present
+  notify:
+    - Restart named
+
+- name: Configure named.conf
+  ansible.builtin.template:
+    src: templates/named.conf.j2
+    dest: /etc/named.conf
+    owner: root
+    group: named
+    mode: '0640'
+  notify:
+    - Restart named
+
+- name: Enable named service
+  ansible.builtin.service:
+    name: named
+    enabled: true
+    state: started
+
+- name: Open hole in firewall
+  ansible.builtin.firewalld:
+    zone: "{{ puppeteers_dns_forwarder_firewalld_zone }}"
+    service: dns
+    state: enabled
+    immediate: true
+    permanent: true
+  when: puppeteers_dns_forwarder_manage_firewalld
