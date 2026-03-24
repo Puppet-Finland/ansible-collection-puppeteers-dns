@@ -12,6 +12,10 @@ ranges to allow queries from:
 
     puppeteers_dns_forwarder_allow_query: "10.0.0.0/8; localhost;"
 
+You also need to define the servers requests are forwarded to:
+
+    puppeteers_dns_forwarder_forwarders: "1.2.3.4; 5.6.7.8;"
+
 This parameter is in the usual bind format (not a list) and doubles as
 the allowlist for recursion.
 

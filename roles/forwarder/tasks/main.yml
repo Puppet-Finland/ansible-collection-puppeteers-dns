@@ -5,6 +5,7 @@
       - puppeteers_dns_forwarder_manage_firewalld is boolean
       - puppeteers_dns_forwarder_allow_query is string
       - puppeteers_dns_forwarder_firewalld_zone is string
+      - puppeteers_dns_forwarder_forwarders is string
 
 - name: Install bind
   ansible.builtin.package:

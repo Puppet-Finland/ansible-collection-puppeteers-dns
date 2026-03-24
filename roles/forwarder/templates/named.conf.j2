@@ -10,7 +10,7 @@
 options {
 	listen-on port 53 { any; };
 	listen-on-v6 port 53 { any; };
-	forwarders { 168.63.129.16; };
+	forwarders { {{ puppeteers_dns_forwarder_forwarders }} };
 	forward only;
 	directory 	"/var/named";
 	dump-file 	"/var/named/data/cache_dump.db";
