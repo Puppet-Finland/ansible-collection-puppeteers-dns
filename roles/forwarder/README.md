@@ -19,6 +19,13 @@ You also need to define the servers requests are forwarded to:
 This parameter is in the usual bind format (not a list) and doubles as
 the allowlist for recursion.
 
+If you wish to disable DNSSec validation for one or more domains (and their
+subdomains, if any):
+
+    puppeteers_dns_forwarder_unvalidated_domains:
+      - acme.org
+      - app.mydomain.com
+
 If you wish to poke a hole in firewalld use:
 
     puppeteers_dns_forwarder_manage_firewalld: true

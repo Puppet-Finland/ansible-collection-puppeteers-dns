@@ -20,6 +20,12 @@ options {
 	recursing-file	"/var/named/data/named.recursing";
 	allow-query { {{ puppeteers_dns_forwarder_allow_query }} };
 
+	# Disable DNSSec validation for these domains
+	validate-except {
+		{% for unvalidated_domain in puppeteers_dns_forwarder_unvalidated_domains %}
+		"{{ unvalidated_domain }}";
+		{% endfor %}
+	};
 
 	/* 
 	 - If you are building an AUTHORITATIVE DNS server, do NOT enable recursion.

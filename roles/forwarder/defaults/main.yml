@@ -1,3 +1,4 @@
 ---
 puppeteers_dns_forwarder_manage_firewalld: false
 puppeteers_dns_forwarder_firewalld_zone: public
+puppeteers_dns_forwarder_unvalidated_domains: []

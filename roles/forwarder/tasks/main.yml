@@ -6,6 +6,7 @@
       - puppeteers_dns_forwarder_allow_query is string
       - puppeteers_dns_forwarder_firewalld_zone is string
       - puppeteers_dns_forwarder_forwarders is string
+      - puppeteers_dns_forwarder_unvalidated_domains is not string and puppeteers_dns_forwarder_unvalidated_domains is not mapping and puppeteers_dns_forwarder_unvalidated_domains is iterable
 
 - name: Install bind
   ansible.builtin.package:
