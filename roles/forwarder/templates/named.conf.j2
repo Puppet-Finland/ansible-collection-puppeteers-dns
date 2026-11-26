@@ -12,12 +12,12 @@ options {
 	listen-on-v6 port 53 { any; };
 	forwarders { {{ puppeteers_dns_forwarder_forwarders }} };
 	forward only;
-	directory 	"/var/named";
-	dump-file 	"/var/named/data/cache_dump.db";
-	statistics-file "/var/named/data/named_stats.txt";
-	memstatistics-file "/var/named/data/named_mem_stats.txt";
-	secroots-file	"/var/named/data/named.secroots";
-	recursing-file	"/var/named/data/named.recursing";
+	directory 	"{{ puppeteers_dns_forwarder_var_path }}";
+	dump-file 	"{{ puppeteers_dns_forwarder_data_path }}/cache_dump.db";
+	statistics-file "{{ puppeteers_dns_forwarder_data_path }}/named_stats.txt";
+	memstatistics-file "{{ puppeteers_dns_forwarder_data_path }}/named_mem_stats.txt";
+	secroots-file	"{{ puppeteers_dns_forwarder_data_path }}/named.secroots";
+	recursing-file	"{{ puppeteers_dns_forwarder_data_path }}/named.recursing";
 	allow-query { {{ puppeteers_dns_forwarder_allow_query }} };
 
 	# Disable DNSSec validation for these domains
@@ -42,7 +42,7 @@ options {
 
 	dnssec-validation yes;
 
-	managed-keys-directory "/var/named/dynamic";
+	managed-keys-directory "{{ puppeteers_dns_forwarder_var_path }}/dynamic";
 	geoip-directory "/usr/share/GeoIP";
 
 	pid-file "/run/named/named.pid";
@@ -64,6 +64,6 @@ zone "." IN {
 	file "named.ca";
 };
 
-include "/etc/named.rfc1912.zones";
-include "/etc/named.root.key";
+include "{{ puppeteers_dns_forwarder_rfc1918_zone_file }}";
+include "{{ puppeteers_dns_forwarder_root_key }}";
 

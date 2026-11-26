@@ -1,4 +1,25 @@
 ---
+# Borrowed as-is from bodsch.dns.unbound/tasks/prepare.yml
+- name: include OS specific configuration ({{ ansible_facts.distribution }} ({{ ansible_facts.os_family }}) {{ ansible_facts.distribution_major_version }})
+  ansible.builtin.include_vars: "{{ lookup('first_found', params) }}"
+  vars:
+    params:
+      paths:
+        - "vars"
+      files:
+        # eg. debian-10 / ubuntu-20.04 / centos-8 / oraclelinux-8
+        - "{{ ansible_facts.distribution | lower }}-{{ ansible_facts.distribution_major_version }}.yml"
+        # eg. archlinux-systemd / archlinux-openrc
+        - "{{ ansible_facts.distribution | lower }}-{{ ansible_facts.service_mgr | lower }}.yml"
+        # eg. artixlinux
+        - "{{ ansible_facts.distribution | lower | replace(' ', '') }}.yml"
+        # eg. debian / ubuntu / centos / oraclelinux
+        - "{{ ansible_facts.distribution | lower }}.yml"
+        # eg. redhat / debian / archlinux
+        - "{{ ansible_facts.os_family | lower }}.yml"
+        - default.yml
+      skip: true
+
 - name: Validate parameters
   ansible.builtin.assert:
     that:
@@ -7,10 +28,16 @@
       - puppeteers_dns_forwarder_firewalld_zone is string
       - puppeteers_dns_forwarder_forwarders is string
       - puppeteers_dns_forwarder_unvalidated_domains is not string and puppeteers_dns_forwarder_unvalidated_domains is not mapping and puppeteers_dns_forwarder_unvalidated_domains is iterable
+      # These are set in vars for each operating system, but can be overridden if necessary
+      - puppeteers_dns_forwarder_package_name is string
+      - puppeteers_dns_forwarder_config_path is string
+      - puppeteers_dns_forwarder_config_options_path is string
+      - puppeteers_dns_forwarder_group is string
+      - puppeteers_dns_forwarder_service is string
 
 - name: Install bind
   ansible.builtin.package:
-    name: bind
+    name: "{{ puppeteers_dns_forwarder_package_name }}"
     state: present
   notify:
     - Restart named
@@ -18,16 +45,28 @@
 - name: Configure named.conf
   ansible.builtin.template:
     src: templates/named.conf.j2
-    dest: /etc/named.conf
+    dest: "{{ puppeteers_dns_forwarder_config_path }}"
     owner: root
-    group: named
+    group: "{{ puppeteers_dns_forwarder_group }}"
     mode: '0640'
   notify:
     - Restart named
+  when: ansible_facts['os_family'] == "RedHat"
+
+- name: Configure named.conf.options
+  ansible.builtin.template:
+    src: templates/named.conf.options.j2
+    dest: "{{ puppeteers_dns_forwarder_config_options_path }}"
+    owner: root
+    group: "{{ puppeteers_dns_forwarder_group }}"
+    mode: '0640'
+  notify:
+    - Restart named
+  when: ansible_facts['os_family'] == "Debian"
 
 - name: Enable named service
   ansible.builtin.service:
-    name: named
+    name: "{{ puppeteers_dns_forwarder_service }}"
     enabled: true
     state: started
 

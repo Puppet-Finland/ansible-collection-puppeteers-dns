@@ -1,0 +1,14 @@
+puppeteers_dns_forwarder_package_name: bind9
+puppeteers_dns_forwarder_config_path: /etc/bind/named.conf.local
+puppeteers_dns_forwarder_var_path: /var/cache/bind
+puppeteers_dns_forwarder_data_path: /var/cache/bind/data
+puppeteers_dns_forwarder_group: bind
+puppeteers_dns_forwarder_service: bind9
+puppeteers_dns_forwarder_rfc1918_zone_file: /etc/bind/zones.rfc1918
+puppeteers_dns_forwarder_root_key: /etc/bind/bind.keys
+
+# Only applicable on Debian operating system family
+puppeteers_dns_forwarder_config_options_path: /etc/bind/named.conf.options
+
+# Ubuntu does not use firewalld by default
+puppeteers_dns_forwarder_manage_firewalld: false

@@ -1,0 +1,12 @@
+puppeteers_dns_forwarder_package_name: bind
+puppeteers_dns_forwarder_config_path: /etc/named.conf
+puppeteers_dns_forwarder_var_path: /var/named
+puppeteers_dns_forwarder_data_path: /var/named/data
+puppeteers_dns_forwarder_group: named
+puppeteers_dns_forwarder_service: named
+puppeteers_dns_forwarder_rfc1918_zone_file: /etc/named.rfc1912.zones
+puppeteers_dns_forwarder_root_key: /etc/named.root.key
+
+# Only applicable on Debian operating system family, but needs to defined due
+# to asserts
+puppeteers_dns_forwarder_config_options_path: ""
