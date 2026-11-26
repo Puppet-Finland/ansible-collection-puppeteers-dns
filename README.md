@@ -4,4 +4,4 @@ This collection contains various DNS-related roles for Ansible
 
 # Roles
 
-* [puppeteers.dns.forwarder](roles/forwarder/README.md): set up a DNS forwarder
+* [puppeteers.dns.forwarder](roles/forwarder/README.md): set up a DNS forwarder. Tested on Ubuntu 24.04 and AlmaLinux 10.

@@ -1,0 +1,25 @@
+// Named options for Debian derivatives
+options {
+	listen-on port 53 { any; };
+	listen-on-v6 port 53 { any; };
+	forwarders { {{ puppeteers_dns_forwarder_forwarders }} };
+	forward only;
+	directory 	"{{ puppeteers_dns_forwarder_var_path }}";
+	allow-query { {{ puppeteers_dns_forwarder_allow_query }} };
+
+	# Disable DNSSec validation for these domains
+	validate-except {
+		{% for unvalidated_domain in puppeteers_dns_forwarder_unvalidated_domains %}
+		"{{ unvalidated_domain }}";
+		{% endfor %}
+	};
+
+	recursion yes;
+	allow-recursion { {{ puppeteers_dns_forwarder_allow_query }} };
+
+	dnssec-validation yes;
+
+	pid-file "/run/named/named.pid";
+	session-keyfile "/run/named/session.key";
+
+};
