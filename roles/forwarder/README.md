@@ -26,6 +26,19 @@ subdomains, if any):
       - acme.org
       - app.mydomain.com
 
+To enable serving stale (TTL expired) DNS records in case upstream server DNS
+servers are temporarily unreachable:
+
+    puppeteers_dns_forwarder_stale_cache_enable: "yes"
+    puppeteers_dns_forwarder_stale_answers_enable: "yes"
+    puppeteers_dns_forwarder_stale_refresh_time: 30s
+    puppeteers_dns_forwarder_stale_answer_ttl: 30s
+
+Make sure to surround the enable parameters with quotes or Ansible will convert
+them into booleans and variable validation will fail. See [this
+table](https://support.huaweicloud.com/intl/en-us/bestpractice-dns/dns_bestprac_0011.html#section3)
+for details on the stale parameters.
+
 If you wish to poke a hole in firewalld use:
 
     puppeteers_dns_forwarder_manage_firewalld: true

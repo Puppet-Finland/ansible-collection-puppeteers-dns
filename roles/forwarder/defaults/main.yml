@@ -2,3 +2,7 @@
 puppeteers_dns_forwarder_manage_firewalld: false
 puppeteers_dns_forwarder_firewalld_zone: public
 puppeteers_dns_forwarder_unvalidated_domains: []
+puppeteers_dns_forwarder_stale_cache_enable: "no"
+puppeteers_dns_forwarder_stale_answers_enable: "no"
+puppeteers_dns_forwarder_stale_refresh_time: 30s
+puppeteers_dns_forwarder_stale_answer_ttl: 30s

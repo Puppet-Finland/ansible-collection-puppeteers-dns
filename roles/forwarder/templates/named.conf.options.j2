@@ -22,4 +22,9 @@ options {
 	pid-file "/run/named/named.pid";
 	session-keyfile "/run/named/session.key";
 
+	/* Stale cache settings */
+	stale-cache-enable {{ puppeteers_dns_forwarder_stale_cache_enable }};
+	stale-answer-enable {{ puppeteers_dns_forwarder_stale_answers_enable }};
+	stale-refresh-time {{ puppeteers_dns_forwarder_stale_refresh_time }};
+	stale-answer-ttl {{ puppeteers_dns_forwarder_stale_answer_ttl }};
 };
